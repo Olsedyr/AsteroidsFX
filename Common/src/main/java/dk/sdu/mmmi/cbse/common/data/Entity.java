@@ -12,7 +12,26 @@ public class Entity implements Serializable {
     private double y;
     private double rotation;
     private float radius;
-            
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    private int lives;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private String type;
 
     public String getID() {
         return ID.toString();

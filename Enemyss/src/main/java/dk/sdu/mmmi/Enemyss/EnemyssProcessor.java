@@ -44,7 +44,7 @@ public class EnemyssProcessor implements IEntityProcessingService {
             Random random = new Random();
 
 // Check for a random condition
-            if (random.nextDouble() < 0.1) {
+            if (random.nextDouble() < 0.01) {
                 // Adjust the probability by changing the value (0.1 in this case, represents 10% chance)
                 getBulletSPIs().stream().findFirst().ifPresent(
                         spi -> {world.addEntity(spi.createBullet(enemy, gameData));}
