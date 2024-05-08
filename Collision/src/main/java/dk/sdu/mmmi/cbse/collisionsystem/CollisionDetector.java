@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
-@Component
 public class CollisionDetector implements IPostEntityProcessingService {
 
     private IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
@@ -28,7 +27,6 @@ public class CollisionDetector implements IPostEntityProcessingService {
     }
 
 
-    @Autowired
     public CollisionDetector(IAsteroidSplitter asteroidSplitter) {
         this.asteroidSplitter = asteroidSplitter;
     }

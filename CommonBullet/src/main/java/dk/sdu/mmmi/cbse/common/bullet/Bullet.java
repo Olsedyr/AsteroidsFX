@@ -8,6 +8,5 @@ import org.springframework.stereotype.Component;
  * @author corfixen
  */
 
-@Component
 public class Bullet extends Entity {
 }

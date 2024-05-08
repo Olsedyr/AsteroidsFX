@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
  * @author Emil
  */
 
-@Component
 public class Player extends Entity {
 
 }

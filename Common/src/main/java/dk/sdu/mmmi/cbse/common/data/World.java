@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  * @author jcs
  */
 
-@Component
 public class World {
 
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();

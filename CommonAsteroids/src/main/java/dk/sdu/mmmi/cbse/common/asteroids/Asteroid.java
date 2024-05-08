@@ -7,6 +7,5 @@ import org.springframework.stereotype.Component;
  *
  * @author corfixen
  */
-@Component
 public class Asteroid extends Entity {
 }

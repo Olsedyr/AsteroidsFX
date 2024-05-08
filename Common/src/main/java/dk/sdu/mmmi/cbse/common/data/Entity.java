@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 
 
-@Component
 public class Entity implements Serializable {
 
     private final UUID ID = UUID.randomUUID();

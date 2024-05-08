@@ -13,7 +13,6 @@ import java.util.Random;
  * @author corfixen
  */
 
-@Component
 public class AsteroidSplitterImpl implements IAsteroidSplitter {
 
     @Override

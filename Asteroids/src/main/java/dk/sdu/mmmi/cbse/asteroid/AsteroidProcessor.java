@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 
 
-@Component
 public class AsteroidProcessor implements IEntityProcessingService {
 
     private IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();

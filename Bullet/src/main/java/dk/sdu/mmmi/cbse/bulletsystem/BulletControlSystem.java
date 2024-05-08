@@ -9,7 +9,6 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import org.springframework.stereotype.Component;
 
 
-@Component
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
 
     @Override
