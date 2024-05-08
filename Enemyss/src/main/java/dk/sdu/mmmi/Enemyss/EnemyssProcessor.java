@@ -13,7 +13,11 @@ import java.util.ServiceLoader;
 import java.util.Random;
 
 import static java.util.stream.Collectors.toList;
+import org.springframework.stereotype.Component;
 
+
+
+@Component
 public class EnemyssProcessor implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {

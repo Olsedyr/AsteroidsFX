@@ -13,7 +13,10 @@ import java.util.Random;
 import java.util.ServiceLoader;
 
 import static java.util.stream.Collectors.toList;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class EnemyssPlugin implements IGamePluginService {
     @Override
     public void start(GameData gameData, World world) {

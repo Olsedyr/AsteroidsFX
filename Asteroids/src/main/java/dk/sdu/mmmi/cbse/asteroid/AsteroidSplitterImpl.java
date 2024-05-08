@@ -4,6 +4,7 @@ import dk.sdu.mmmi.cbse.common.asteroids.Asteroid;
 import dk.sdu.mmmi.cbse.common.asteroids.IAsteroidSplitter;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.World;
+import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
@@ -11,6 +12,8 @@ import java.util.Random;
  *
  * @author corfixen
  */
+
+@Component
 public class AsteroidSplitterImpl implements IAsteroidSplitter {
 
     @Override
