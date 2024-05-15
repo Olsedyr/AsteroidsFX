@@ -41,6 +41,7 @@ public class EnemyssPlugin implements IGamePluginService {
         enemyss.setY(0);
         enemyss.setRadius(size);
         enemyss.setRotation(rnd.nextInt(90));
+        enemyss.setAlive(true);
         return enemyss;
     }
 

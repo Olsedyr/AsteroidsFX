@@ -40,12 +40,29 @@ public class CollisionDetector implements IPostEntityProcessingService {
             }
         }
 
+
+
+        for (Entity playerShip : world.getEntities(Player.class)) {
+            for (Entity asteroid : world.getEntities(Asteroid.class)) {
+                if (collides(playerShip, asteroid)) {
+                    world.removeEntity(playerShip);
+                    asteroidSplitter.createSplitAsteroid(asteroid, world);
+
+                    break;
+                }
+            }
+        }
+
+
+
+
         for (Entity bullet : world.getEntities(Bullet.class)) {
 
             for (Entity enemy : world.getEntities(Enemyss.class)) {
                 if (collides(bullet, enemy)) {
                     if(enemy.getLives() == 0){
                         world.removeEntity(enemy);
+                        enemy.setAlive(false);
                         world.removeEntity(bullet);
                     }else{
                         enemy.setLives(enemy.getLives()-1);
@@ -76,7 +93,6 @@ public class CollisionDetector implements IPostEntityProcessingService {
                 }
             }
         }
-
 
     }
 
