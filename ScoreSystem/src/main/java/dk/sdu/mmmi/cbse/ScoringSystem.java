@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.ScoringSystem;
+package dk.sdu.mmmi.cbse;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

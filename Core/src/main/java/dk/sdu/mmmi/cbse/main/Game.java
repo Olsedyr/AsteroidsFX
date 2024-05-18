@@ -11,7 +11,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
-import org.springframework.web.client.RestTemplate;
+//import org.springframework.web.client.RestTemplate;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -37,7 +37,7 @@ class Game {
     private final List<IGamePluginService> gamePluginServices;
     private final List<IEntityProcessingService> entityProcessingServiceList;
     private final List<IPostEntityProcessingService> postEntityProcessingServices;
-    private final RestTemplate restTemplate = new RestTemplate();
+    //private final RestTemplate restTemplate = new RestTemplate();
     private final String scoringServiceUrl = "http://localhost:8080/score";
     private int score = 0;
     Game(List<IGamePluginService> gamePluginServices, List<IEntityProcessingService> entityProcessingServiceList, List<IPostEntityProcessingService> postEntityProcessingServices) {
@@ -141,13 +141,15 @@ class Game {
     }
 
 
-    private void incrementScore(long points) {
+ /*   private void incrementScore(long points) {
         String url = scoringServiceUrl + "?point=" + points;
         Long updatedScore = restTemplate.getForObject(url, Long.class);
         if (updatedScore != null) {
             score = updatedScore.intValue();
         }
     }
+
+  */
 
     public List<IGamePluginService> getGamePluginServices() {
         return gamePluginServices;
