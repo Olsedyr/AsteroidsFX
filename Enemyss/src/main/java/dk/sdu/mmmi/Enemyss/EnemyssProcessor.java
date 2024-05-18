@@ -15,10 +15,25 @@ import java.util.Random;
 import static java.util.stream.Collectors.toList;
 
 public class EnemyssProcessor implements IEntityProcessingService {
+
+
+    private Random random = new Random();
+    private long lastDirectionChangeTime = System.currentTimeMillis();
+
+    private long directionChangeInterval = 1500;
     @Override
     public void process(GameData gameData, World world) {
 
         for (Entity enemy : world.getEntities(Enemyss.class)) {
+            long currentTime = System.currentTimeMillis();
+
+            if (currentTime - lastDirectionChangeTime >= directionChangeInterval) {
+                lastDirectionChangeTime = currentTime;
+                // Change enemy's rotation randomly within -45 to +45 degrees
+                enemy.setRotation(enemy.getRotation() + (random.nextDouble() * 180 - 90));
+            }
+
+
             double changeX = Math.cos(Math.toRadians(enemy.getRotation()));
             double changeY = Math.sin(Math.toRadians(enemy.getRotation()));
 
