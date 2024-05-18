@@ -4,7 +4,11 @@ import dk.sdu.mmmi.cbse.common.asteroids.Asteroid;
 import dk.sdu.mmmi.cbse.common.asteroids.IAsteroidSplitter;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.World;
-
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Random;
 
 /**
@@ -37,6 +41,7 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter {
             world.addEntity(splitAsteroid2);
         }
         System.out.println(splitAsteroid1.getX());
+        updateScore("http://localhost:8080/score");
     }
     /**
      * Create a new asteroid entity
@@ -57,5 +62,27 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter {
         asteroid.setPolygonCoordinates(size, -size, -size, -size, -size, size, size, size);
         return asteroid;
     }
+
+
+    public int updateScore(String url){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        int scoreInt;
+        try {
+            HttpResponse<String> score = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(score.body());
+            scoreInt = Integer.parseInt(score.body());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return  scoreInt;
+    }
+
 
 }

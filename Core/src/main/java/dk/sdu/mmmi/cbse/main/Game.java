@@ -12,14 +12,30 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 //import org.springframework.web.client.RestTemplate;
+import dk.sdu.mmmi.cbse.playersystem.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.ServiceLoader;
+import java.util.concurrent.ConcurrentHashMap;
+import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +44,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author jcs
  */
-class Game {
+public class Game extends Application {
 
     private final GameData gameData = new GameData();
     private final World world = new World();
@@ -37,9 +53,13 @@ class Game {
     private final List<IGamePluginService> gamePluginServices;
     private final List<IEntityProcessingService> entityProcessingServiceList;
     private final List<IPostEntityProcessingService> postEntityProcessingServices;
-    //private final RestTemplate restTemplate = new RestTemplate();
-    private final String scoringServiceUrl = "http://localhost:8080/score";
-    private int score = 0;
+
+    private final String GetScoreUrl = "http://localhost:8080/getScore";
+
+    private final String ResetScoreUrl = "http://localhost:8080/resetScore";
+
+    private Text gameOverText;
+
     Game(List<IGamePluginService> gamePluginServices, List<IEntityProcessingService> entityProcessingServiceList, List<IPostEntityProcessingService> postEntityProcessingServices) {
         this.gamePluginServices = gamePluginServices;
         this.entityProcessingServiceList = entityProcessingServiceList;
@@ -47,9 +67,16 @@ class Game {
     }
 
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids:"+ score);
+        callScoreService(ResetScoreUrl, true);
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        gameWindow.getChildren().add(text);
+
+        Text text = new Text(10, 20, "Destroyed asteroids: 0");
+
+        gameOverText = new Text(gameData.getDisplayWidth() / 2 - 175, gameData.getDisplayHeight() / 2, "");
+        gameOverText.setFont(Font.font("Verdana", FontWeight.BOLD, 60)); // Set font size
+        gameOverText.setFill(Color.RED);
+
+        gameWindow.getChildren().addAll(text, gameOverText);
 
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
@@ -138,18 +165,38 @@ class Game {
             polygon.setRotate(entity.getRotation());
         }
 
-    }
+        Text textNode = (Text) gameWindow.getChildren().get(0);
+        textNode.setText("Destroyed asteroids: " + callScoreService(GetScoreUrl, false));
 
-
- /*   private void incrementScore(long points) {
-        String url = scoringServiceUrl + "?point=" + points;
-        Long updatedScore = restTemplate.getForObject(url, Long.class);
-        if (updatedScore != null) {
-            score = updatedScore.intValue();
+        boolean playerExists = world.getEntities().stream().anyMatch(e -> e instanceof Player);
+        if (!playerExists) {
+            gameOverText.setText("Game Over");
         }
+
     }
 
-  */
+    public int callScoreService(String url, boolean isVoid){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        int scoreInt = 0;
+        try {
+            HttpResponse<String> score = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(isVoid != true) {
+                scoreInt = Integer.parseInt(score.body());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return  scoreInt;
+    }
+
 
     public List<IGamePluginService> getGamePluginServices() {
         return gamePluginServices;
@@ -162,5 +209,6 @@ class Game {
     public List<IPostEntityProcessingService> getPostEntityProcessingServices() {
         return postEntityProcessingServices;
     }
+
 
 }

@@ -22,7 +22,6 @@
         <module>Enemyss</module>
         <module>Asteroids</module>
         <module>Collision</module>
-        <module>ScoreSystem</module>
     </modules>
     <properties>
         <java>java</java>
